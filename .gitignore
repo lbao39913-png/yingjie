@@ -124,7 +124,6 @@
 # Dart
 **/.dart_tool/
 **/*.dart_tool
-**/analysis_options.yaml
 **/.packages
 **/.pub-cache/
 **/.pub/
