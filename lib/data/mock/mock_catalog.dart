@@ -8,9 +8,33 @@ import '../../models/video.dart';
 class MockCatalog {
   MockCatalog._();
 
-  static const sampleHost =
-      'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample';
+  /// Google gtv-videos-bucket now returns AccessDenied for anonymous playback.
+  static const sampleHost = 'https://media.w3.org';
+  static const sintelTrailer = '$sampleHost/2010/05/sintel/trailer.mp4';
+  static const bunnyTrailer = '$sampleHost/2010/05/bunny/trailer.mp4';
+  static const bunnyMovie = '$sampleHost/2010/05/bunny/movie.mp4';
+  static const movie300 = '$sampleHost/2010/05/video/movie_300.mp4';
   static const _sampleHost = sampleHost;
+
+  static String clipUrl(String file) {
+    switch (file) {
+      case 'BigBuckBunny':
+      case 'ForBiggerEscapes':
+      case 'VolkswagenGTIReview':
+        return bunnyMovie;
+      case 'ElephantsDream':
+      case 'ForBiggerBlazes':
+      case 'SubaruOutbackOnStreetAndDirt':
+        return bunnyTrailer;
+      case 'Sintel':
+      case 'ForBiggerJoyrides':
+      case 'ForBiggerMeltdowns':
+      case 'WhatCarCanYouGetForAGrand':
+        return sintelTrailer;
+      default:
+        return movie300;
+    }
+  }
 
   static final List<Category> categories = [
     const Category(id: 'movie', name: '电影'),
@@ -42,12 +66,12 @@ class MockCatalog {
           id: 'source-mp4',
           name: '线路 1 · MP4',
           episodes: [
-            Episode(
-              id: 'bbb-1',
-              name: '正片',
-              url: '$_sampleHost/BigBuckBunny.mp4',
-              quality: '720p',
-            ),
+              Episode(
+                id: 'bbb-1',
+                name: '正片',
+                url: bunnyMovie,
+                quality: '720p',
+              ),
           ],
         ),
       ],
@@ -74,12 +98,12 @@ class MockCatalog {
           id: 'source-mp4',
           name: '线路 1 · MP4',
           episodes: [
-            Episode(
-              id: 'ed-1',
-              name: '正片',
-              url: '$_sampleHost/ElephantsDream.mp4',
-              quality: '720p',
-            ),
+              Episode(
+                id: 'ed-1',
+                name: '正片',
+                url: bunnyTrailer,
+                quality: '720p',
+              ),
           ],
         ),
       ],
@@ -106,12 +130,12 @@ class MockCatalog {
           id: 'source-mp4',
           name: '线路 1 · MP4',
           episodes: [
-            Episode(
-              id: 'sintel-1',
-              name: '正片',
-              url: '$_sampleHost/Sintel.mp4',
-              quality: '720p',
-            ),
+              Episode(
+                id: 'sintel-1',
+                name: '正片',
+                url: sintelTrailer,
+                quality: '720p',
+              ),
           ],
         ),
       ],
@@ -138,24 +162,24 @@ class MockCatalog {
           id: 'source-mp4',
           name: '线路 1 · MP4',
           episodes: [
-            Episode(
-              id: 'tos-1',
-              name: '第 1 集',
-              url: '$_sampleHost/TearsOfSteel.mp4',
-              quality: '1080p',
-            ),
+              Episode(
+                id: 'tos-1',
+                name: '第 1 集',
+                url: movie300,
+                quality: '1080p',
+              ),
           ],
         ),
         const PlaySource(
           id: 'source-alt',
           name: '线路 2 · 备用',
           episodes: [
-            Episode(
-              id: 'tos-alt-1',
-              name: '第 1 集',
-              url: '$_sampleHost/TearsOfSteel.mp4',
-              quality: '720p',
-            ),
+              Episode(
+                id: 'tos-alt-1',
+                name: '第 1 集',
+                url: sintelTrailer,
+                quality: '720p',
+              ),
           ],
         ),
       ],
@@ -182,12 +206,12 @@ class MockCatalog {
           id: 'source-mp4',
           name: '线路 1 · MP4',
           episodes: [
-            Episode(
-              id: 'joy-1',
-              name: '正片',
-              url: '$_sampleHost/ForBiggerJoyrides.mp4',
-              quality: '720p',
-            ),
+              Episode(
+                id: 'joy-1',
+                name: '正片',
+                url: sintelTrailer,
+                quality: '720p',
+              ),
           ],
         ),
       ],
@@ -294,7 +318,7 @@ Video _sampleClip({
           Episode(
             id: '$id-1',
             name: '正片',
-            url: '$host/$file.mp4',
+            url: MockCatalog.clipUrl(file),
             quality: '720p',
           ),
         ],
@@ -337,7 +361,7 @@ Video _sampleSeries({
             Episode(
               id: '$id-${index + 1}',
               name: '第${index + 1}集',
-              url: '$host/${files[index]}.mp4',
+              url: MockCatalog.clipUrl(files[index]),
               quality: '720p',
               episodeNumber: index + 1,
               mediaId: id,

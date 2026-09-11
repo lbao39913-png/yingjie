@@ -498,7 +498,7 @@ void main() {
     expect(controller.state.position, Duration.zero);
     expect(controller.state.hasPrevious, isTrue);
     expect(controller.state.title, '示例剧集 A · 第2集');
-    expect(engines[1].openedUrl.toString(), contains('ForBiggerEscapes'));
+    expect(engines[1].openedUrl.toString(), contains('bunny/movie'));
     controller.dispose();
   });
 
