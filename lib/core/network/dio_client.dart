@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 
 import '../config/api_config.dart';
-import '../config/app_config.dart';
 
 class DioClient {
   DioClient({Dio? dio}) : _dio = dio ?? _create();
@@ -26,8 +25,10 @@ class DioClient {
 
     dio.interceptors.add(
       LogInterceptor(
-        requestBody: AppConfig.env.isDevelopment,
-        responseBody: AppConfig.env.isDevelopment,
+        requestBody: false,
+        responseBody: false,
+        requestHeader: false,
+        responseHeader: false,
       ),
     );
 

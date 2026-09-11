@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../features/about/about_page.dart';
+import '../features/auth/login_page.dart';
+import '../features/auth/register_page.dart';
 import '../features/category/category_page.dart';
 import '../features/detail/detail_page.dart';
 import '../features/favorites/favorites_page.dart';
@@ -96,6 +98,18 @@ final appRouter = GoRouter(
       name: 'about',
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) => const AboutPage(),
+    ),
+    GoRoute(
+      path: '/login',
+      name: 'login',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/register',
+      name: 'register',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const RegisterPage(),
     ),
     GoRoute(
       path: '/detail/:id',

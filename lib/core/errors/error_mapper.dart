@@ -29,6 +29,12 @@ class ErrorMapper {
         if (status == 404) {
           return NotFoundException(cause: error);
         }
+        if (status == 401) {
+          return const AuthException(message: '登录已过期，请重新登录');
+        }
+        if (status == 409) {
+          return const AuthException(message: '该账号已被注册');
+        }
         return ServerException(cause: error);
       case DioExceptionType.cancel:
         return const UnknownException(message: '请求已取消');

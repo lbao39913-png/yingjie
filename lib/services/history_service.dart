@@ -66,6 +66,15 @@ class HistoryService {
     }
   }
 
+  Future<void> mergeAll(List<PlaybackRecord> records) async {
+    for (final record in records) {
+      final existing = load(record.videoId, episodeId: record.episodeId);
+      if (existing == null || record.watchedAt.isAfter(existing.watchedAt)) {
+        await save(record);
+      }
+    }
+  }
+
   Future<void> remove(String mediaId, {String? episodeId}) async {
     final id = mediaId.trim();
     if (id.isEmpty) {

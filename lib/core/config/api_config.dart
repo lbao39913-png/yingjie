@@ -30,6 +30,13 @@ class ApiConfig {
   static const String recommendPath = '/v1/recommend';
 
   static String videoDetailPath(String id) => '/v1/videos/$id';
+
+  static const String authRegisterPath = '/v1/auth/register';
+  static const String authLoginPath = '/v1/auth/login';
+  static const String authLogoutPath = '/v1/auth/logout';
+  static const String authRefreshPath = '/v1/auth/refresh';
+  static const String authMePath = '/v1/auth/me';
+  static const String syncDataPath = '/v1/sync/data';
 }
 
 /// Version check is independent from the media catalog API.

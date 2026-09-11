@@ -58,6 +58,12 @@ class FavoriteService {
     return true;
   }
 
+  Future<void> mergeAll(List<Video> videos) async {
+    for (final video in videos) {
+      await add(video);
+    }
+  }
+
   int count() {
     try {
       return all().length;

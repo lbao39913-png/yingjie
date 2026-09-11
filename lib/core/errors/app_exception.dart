@@ -43,6 +43,13 @@ class CacheException extends AppException {
   }) : super(message, cause: cause);
 }
 
+class AuthException extends AppException {
+  const AuthException({
+    String message = '登录失败，请稍后重试',
+    Object? cause,
+  }) : super(message, cause: cause);
+}
+
 class UnknownException extends AppException {
   const UnknownException({
     String message = '发生未知错误，请稍后重试',

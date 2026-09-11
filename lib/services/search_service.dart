@@ -83,6 +83,25 @@ class SearchService {
     await _writeHistory(items.take(AppConstants.searchHistoryLimit).toList());
   }
 
+  Future<void> mergeHistory(List<String> keywords) async {
+    final local = history();
+    final seen = <String>{...local};
+    final merged = [...local];
+    for (final keyword in keywords) {
+      final trimmed = keyword.trim();
+      if (trimmed.isEmpty || !seen.add(trimmed)) {
+        continue;
+      }
+      merged.add(trimmed);
+    }
+    if (merged.length == local.length) {
+      return;
+    }
+    await _writeHistory(
+      merged.take(AppConstants.searchHistoryLimit).toList(),
+    );
+  }
+
   Future<void> removeHistory(String keyword) {
     final items = history().where((item) => item != keyword).toList();
     return _writeHistory(items);

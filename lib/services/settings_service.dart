@@ -49,6 +49,31 @@ class SettingsService {
     }
   }
 
+  bool containsKey(String key) {
+    try {
+      return LocalStorage.settingsBox().containsKey(key);
+    } on CacheException {
+      return false;
+    }
+  }
+
+  Future<void> mergeFromCloud({
+    bool? autoPlay,
+    bool? autoReturnAfterCompletion,
+    double? playSpeed,
+  }) async {
+    if (autoPlay != null && !containsKey(AppConstants.settingAutoPlay)) {
+      await setAutoPlay(autoPlay);
+    }
+    if (autoReturnAfterCompletion != null &&
+        !containsKey(AppConstants.settingAutoReturnAfterCompletion)) {
+      await setAutoReturnAfterCompletion(autoReturnAfterCompletion);
+    }
+    if (playSpeed != null && !containsKey(AppConstants.settingPlaySpeed)) {
+      await setPlaySpeed(playSpeed);
+    }
+  }
+
   bool _readBool(String key, bool fallback) {
     try {
       final raw = LocalStorage.settingsBox().get(key);
