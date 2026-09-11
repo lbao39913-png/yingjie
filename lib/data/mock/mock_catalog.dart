@@ -14,7 +14,6 @@ class MockCatalog {
   static const bunnyTrailer = '$sampleHost/2010/05/bunny/trailer.mp4';
   static const bunnyMovie = '$sampleHost/2010/05/bunny/movie.mp4';
   static const movie300 = '$sampleHost/2010/05/video/movie_300.mp4';
-  static const _sampleHost = sampleHost;
 
   static String clipUrl(String file) {
     switch (file) {
@@ -36,6 +35,40 @@ class MockCatalog {
     }
   }
 
+  /// Wikimedia Commons CC stills. Google sample image paths 404 after the host change.
+  static const _wmThumb = 'https://thumb.wikimedia.org/wikipedia/commons/thumb';
+
+  static String coverUrl(String file) {
+    switch (file) {
+      case 'BigBuckBunny':
+        return '$_wmThumb/c/c5/Big_buck_bunny_poster_big.jpg/500px-Big_buck_bunny_poster_big.jpg';
+      case 'ElephantsDream':
+        return '$_wmThumb/e/e4/Elephants_Dream_cover.jpg/500px-Elephants_Dream_cover.jpg';
+      case 'Sintel':
+        return '$_wmThumb/8/8f/Sintel_poster.jpg/500px-Sintel_poster.jpg';
+      case 'TearsOfSteel':
+        return '$_wmThumb/7/70/Tos-poster.png/500px-Tos-poster.png';
+      case 'ForBiggerJoyrides':
+        return '$_wmThumb/f/f3/Sintel_Poster_Paintover_clean.jpg/500px-Sintel_Poster_Paintover_clean.jpg';
+      case 'ForBiggerBlazes':
+        return '$_wmThumb/4/4b/Elephants_Dream_s5_both_cropped.jpg/500px-Elephants_Dream_s5_both_cropped.jpg';
+      case 'ForBiggerEscapes':
+        return '$_wmThumb/1/18/Tears_of_Steel_frame_01_2a.jpg/500px-Tears_of_Steel_frame_01_2a.jpg';
+      case 'ForBiggerFun':
+        return '$_wmThumb/6/69/Big_Buck_Bunny_-_forest.jpg/500px-Big_Buck_Bunny_-_forest.jpg';
+      case 'ForBiggerMeltdowns':
+        return '$_wmThumb/7/7b/Tears_of_Steel_frame_07_3f.jpg/500px-Tears_of_Steel_frame_07_3f.jpg';
+      case 'SubaruOutbackOnStreetAndDirt':
+        return '$_wmThumb/d/d5/Big_Buck_Bunny_loves_Creative_Commons.png/500px-Big_Buck_Bunny_loves_Creative_Commons.png';
+      case 'VolkswagenGTIReview':
+        return '$_wmThumb/1/12/Tears_of_Steel_frame_09_1a.jpg/500px-Tears_of_Steel_frame_09_1a.jpg';
+      case 'WeAreGoingOnBullrun':
+        return '$_wmThumb/6/6c/Sintel_Screenshot_1.png/500px-Sintel_Screenshot_1.png';
+      default:
+        return '$_wmThumb/8/8f/Sintel_poster.jpg/500px-Sintel_poster.jpg';
+    }
+  }
+
   static final List<Category> categories = [
     const Category(id: 'movie', name: '电影'),
     const Category(id: 'series', name: '电视剧'),
@@ -48,8 +81,8 @@ class MockCatalog {
       id: 'big-buck-bunny',
       title: 'Big Buck Bunny',
       subtitle: 'Blender Foundation',
-      cover: '$_sampleHost/images/BigBuckBunny.jpg',
-      backdrop: '$_sampleHost/images/BigBuckBunny.jpg',
+      cover: coverUrl('BigBuckBunny'),
+      backdrop: coverUrl('BigBuckBunny'),
       description:
           'A Creative Commons short film by the Blender Foundation. Used as a legal sample title in development.',
       year: 2008,
@@ -80,8 +113,8 @@ class MockCatalog {
       id: 'elephants-dream',
       title: 'Elephants Dream',
       subtitle: 'Blender Foundation',
-      cover: '$_sampleHost/images/ElephantsDream.jpg',
-      backdrop: '$_sampleHost/images/ElephantsDream.jpg',
+      cover: coverUrl('ElephantsDream'),
+      backdrop: coverUrl('ElephantsDream'),
       description:
           'The first open movie created with Blender. Licensed under Creative Commons.',
       year: 2006,
@@ -112,8 +145,8 @@ class MockCatalog {
       id: 'sintel',
       title: 'Sintel',
       subtitle: 'Blender Foundation',
-      cover: '$_sampleHost/images/Sintel.jpg',
-      backdrop: '$_sampleHost/images/Sintel.jpg',
+      cover: coverUrl('Sintel'),
+      backdrop: coverUrl('Sintel'),
       description:
           'A Creative Commons fantasy short about a girl and a baby dragon.',
       year: 2010,
@@ -144,8 +177,8 @@ class MockCatalog {
       id: 'tears-of-steel',
       title: 'Tears of Steel',
       subtitle: 'Blender Foundation',
-      cover: '$_sampleHost/images/TearsOfSteel.jpg',
-      backdrop: '$_sampleHost/images/TearsOfSteel.jpg',
+      cover: coverUrl('TearsOfSteel'),
+      backdrop: coverUrl('TearsOfSteel'),
       description:
           'A Creative Commons live-action / CGI short produced by the Blender Institute.',
       year: 2012,
@@ -188,8 +221,8 @@ class MockCatalog {
       id: 'for-bigger-joyrides',
       title: 'For Bigger Joyrides',
       subtitle: 'Google sample clip',
-      cover: '$_sampleHost/images/ForBiggerJoyrides.jpg',
-      backdrop: '$_sampleHost/images/ForBiggerJoyrides.jpg',
+      cover: coverUrl('ForBiggerJoyrides'),
+      backdrop: coverUrl('ForBiggerJoyrides'),
       description:
           'A publicly provided sample clip from Google sample videos, used only for player development.',
       year: 2013,
@@ -292,13 +325,12 @@ Video _sampleClip({
   required String file,
   required String category,
 }) {
-  const host = MockCatalog.sampleHost;
   return Video(
     id: id,
     title: title,
     subtitle: 'Google sample clip',
-    cover: '$host/images/$file.jpg',
-    backdrop: '$host/images/$file.jpg',
+    cover: MockCatalog.coverUrl(file),
+    backdrop: MockCatalog.coverUrl(file),
     description:
         'A publicly provided sample clip used only for player and catalog development.',
     year: 2013,
@@ -332,14 +364,13 @@ Video _sampleSeries({
   required String title,
   required List<String> files,
 }) {
-  const host = MockCatalog.sampleHost;
   final coverFile = files.first;
   return Video(
     id: id,
     title: title,
     subtitle: 'Google sample clips',
-    cover: '$host/images/$coverFile.jpg',
-    backdrop: '$host/images/$coverFile.jpg',
+    cover: MockCatalog.coverUrl(coverFile),
+    backdrop: MockCatalog.coverUrl(coverFile),
     description:
         'A Creative Commons / Google sample series used only for multi-episode player development.',
     year: 2013,

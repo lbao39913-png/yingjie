@@ -371,7 +371,7 @@ void main() {
     engine.tick(const Duration(seconds: 32));
     await controller.persistProgress();
     final saved = history.load('sintel');
-    expect(saved?.cover, contains('Sintel.jpg'));
+    expect(saved?.cover, contains('Sintel_poster.jpg'));
     expect(saved?.year, 2010);
     expect(saved?.genres, ['动画', '奇幻']);
     controller.dispose();

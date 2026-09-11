@@ -24,6 +24,11 @@ class CoverImage extends StatelessWidget {
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
+              httpHeaders: const {
+                'User-Agent':
+                    'Yingjie/1.0 (https://github.com/lbao39913-png/yingjie)',
+                'Accept': 'image/jpeg,image/png,image/webp,image/*;q=0.8',
+              },
               placeholder: (context, url) => const CoverPlaceholder(),
               errorWidget: (context, url, error) {
                 return const CoverPlaceholder(failed: true);
