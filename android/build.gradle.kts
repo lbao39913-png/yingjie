@@ -21,10 +21,16 @@ subprojects {
 
 subprojects {
     afterEvaluate {
-        extensions.findByType<com.android.build.gradle.LibraryExtension>()?.let { android ->
-            if (android.compileSdk < 36) {
-                android.compileSdk = 36
-            }
+        val android = extensions.findByName("android") ?: return@afterEvaluate
+        val getter =
+            android.javaClass.methods.firstOrNull {
+                it.name == "getCompileSdk" && it.parameterCount == 0
+            } ?: return@afterEvaluate
+        val current = getter.invoke(android) as? Int ?: 0
+        if (current in 1 until 36) {
+            android.javaClass.methods
+                .firstOrNull { it.name == "setCompileSdk" && it.parameterCount == 1 }
+                ?.invoke(android, 36)
         }
     }
 }
