@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -64,7 +65,7 @@ class VideoPlayerEngine implements VideoEngine {
   Future<void> open(Uri url) async {
     await _releaseController();
     _completedEmitted = false;
-    final controller = VideoPlayerController.networkUrl(url);
+    final controller = _controllerFor(url);
     _controller = controller;
     controller.addListener(_handleValue);
     await controller.initialize();
@@ -108,6 +109,16 @@ class VideoPlayerEngine implements VideoEngine {
     _onChanged = null;
     await _releaseController();
     await _events.close();
+  }
+
+  VideoPlayerController _controllerFor(Uri url) {
+    if (url.isScheme('file')) {
+      return VideoPlayerController.file(File.fromUri(url));
+    }
+    if (url.isScheme('content')) {
+      return VideoPlayerController.contentUri(url);
+    }
+    return VideoPlayerController.networkUrl(url);
   }
 
   Future<void> _releaseController() async {

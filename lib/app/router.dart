@@ -9,6 +9,8 @@ import '../features/detail/detail_page.dart';
 import '../features/favorites/favorites_page.dart';
 import '../features/history/history_page.dart';
 import '../features/home/home_page.dart';
+import '../features/library/library_page.dart';
+import '../features/library/private_videos_page.dart';
 import '../features/mine/mine_page.dart';
 import '../features/player/player_page.dart';
 import '../features/search/search_history_page.dart';
@@ -98,6 +100,18 @@ final appRouter = GoRouter(
       name: 'about',
       parentNavigatorKey: rootNavigatorKey,
       builder: (context, state) => const AboutPage(),
+    ),
+    GoRoute(
+      path: '/videos',
+      name: 'videos',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const LibraryPage(),
+    ),
+    GoRoute(
+      path: '/private-videos',
+      name: 'private-videos',
+      parentNavigatorKey: rootNavigatorKey,
+      builder: (context, state) => const PrivateVideosPage(),
     ),
     GoRoute(
       path: '/login',

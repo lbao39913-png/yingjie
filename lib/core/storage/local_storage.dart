@@ -18,6 +18,8 @@ class LocalStorage {
       Hive.openBox<dynamic>(AppConstants.hiveSearchHistoryBox),
       Hive.openBox<dynamic>(AppConstants.hiveFavoritesBox),
       Hive.openBox<dynamic>(AppConstants.hivePlaybackHistoryBox),
+      Hive.openBox<dynamic>(AppConstants.hiveLocalVideosBox),
+      Hive.openBox<dynamic>(AppConstants.hiveCloudVideosBox),
     ]);
     _ready = true;
   }
@@ -33,6 +35,8 @@ class LocalStorage {
       Hive.openBox<dynamic>(AppConstants.hiveSearchHistoryBox),
       Hive.openBox<dynamic>(AppConstants.hiveFavoritesBox),
       Hive.openBox<dynamic>(AppConstants.hivePlaybackHistoryBox),
+      Hive.openBox<dynamic>(AppConstants.hiveLocalVideosBox),
+      Hive.openBox<dynamic>(AppConstants.hiveCloudVideosBox),
     ]);
     _ready = true;
   }
@@ -53,6 +57,10 @@ class LocalStorage {
 
   static Box<dynamic> playbackHistoryBox() =>
       _box(AppConstants.hivePlaybackHistoryBox);
+
+  static Box<dynamic> localVideosBox() => _box(AppConstants.hiveLocalVideosBox);
+
+  static Box<dynamic> cloudVideosBox() => _box(AppConstants.hiveCloudVideosBox);
 
   static Future<void> clearPlaybackHistory() {
     return playbackHistoryBox().clear();

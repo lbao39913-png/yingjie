@@ -61,10 +61,7 @@ void main() {
     final router = GoRouter(
       initialLocation: '/mine',
       routes: [
-        GoRoute(
-          path: '/mine',
-          builder: (context, state) => const MinePage(),
-        ),
+        GoRoute(path: '/mine', builder: (context, state) => const MinePage()),
         GoRoute(
           path: '/favorites',
           builder: (context, state) => const Scaffold(body: Text('收藏页')),
@@ -84,6 +81,14 @@ void main() {
         GoRoute(
           path: '/about',
           builder: (context, state) => const Scaffold(body: Text('关于页')),
+        ),
+        GoRoute(
+          path: '/videos',
+          builder: (context, state) => const Scaffold(body: Text('视频库页')),
+        ),
+        GoRoute(
+          path: '/private-videos',
+          builder: (context, state) => const Scaffold(body: Text('隐私视频页')),
         ),
         GoRoute(
           path: '/login',
@@ -190,6 +195,8 @@ void main() {
 
   testWidgets('settings tile opens settings', (tester) async {
     await pumpMine(tester);
+    await tester.drag(find.byType(Scrollable), const Offset(0, -320));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('mine-settings')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
@@ -198,9 +205,19 @@ void main() {
 
   testWidgets('about tile opens about', (tester) async {
     await pumpMine(tester);
+    await tester.drag(find.byType(Scrollable), const Offset(0, -320));
+    await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('mine-about')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('关于页'), findsOneWidget);
+  });
+
+  testWidgets('video library tile opens videos page', (tester) async {
+    await pumpMine(tester);
+    await tester.tap(find.byKey(const Key('mine-videos')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.text('视频库页'), findsOneWidget);
   });
 }

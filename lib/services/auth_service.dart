@@ -7,19 +7,21 @@ import '../models/user.dart';
 import 'sync_service.dart';
 
 class AuthService {
-  AuthService._(this._api, this._tokens, this._sync);
+  AuthService._(this._api, this._tokens, this._sync, this._afterLogin);
 
   factory AuthService({
     required AuthApi api,
     required TokenStore tokens,
     required SyncService sync,
+    Future<void> Function(String accessToken)? afterLogin,
   }) {
-    return AuthService._(api, tokens, sync);
+    return AuthService._(api, tokens, sync, afterLogin);
   }
 
   final AuthApi _api;
   final TokenStore _tokens;
   final SyncService _sync;
+  final Future<void> Function(String accessToken)? _afterLogin;
   final StreamController<void> _changes = StreamController<void>.broadcast();
 
   AuthSnapshot _snapshot = const AuthSnapshot();
@@ -52,6 +54,7 @@ class AuthService {
         ),
       );
       await _sync.pullAndMerge(session.accessToken);
+      await _runAfterLogin(session.accessToken);
     } catch (_) {
       await _tokens.clear();
       _set(const AuthSnapshot(status: AuthStatus.loggedOut));
@@ -108,6 +111,7 @@ class AuthService {
         ),
       );
       await _sync.pullAndMerge(session.accessToken);
+      await _runAfterLogin(session.accessToken);
     } on AppException catch (error) {
       _set(
         AuthSnapshot(
@@ -139,6 +143,16 @@ class AuthService {
     if (!_changes.isClosed) {
       _changes.add(null);
     }
+  }
+
+  Future<void> _runAfterLogin(String accessToken) async {
+    final hook = _afterLogin;
+    if (hook == null) {
+      return;
+    }
+    try {
+      await hook(accessToken);
+    } catch (_) {}
   }
 
   void dispose() {

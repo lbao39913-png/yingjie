@@ -25,6 +25,13 @@ class AppConstants {
   static const String hiveSearchHistoryBox = 'search_history';
   static const String hiveFavoritesBox = 'favorites';
   static const String hivePlaybackHistoryBox = 'playback_history';
+  static const String hiveLocalVideosBox = 'local_videos';
+  static const String hiveCloudVideosBox = 'cloud_videos';
+
+  static const int uploadChunkSize = 256 * 1024;
+  static const int uploadChunkRetries = 2;
+  static const String settingPrivacyPinHashPrefix = 'privacy_pin_hash_';
+  static const String settingPrivacyPinSaltPrefix = 'privacy_pin_salt_';
 
   static const String defaultPlaySpeed = '1.0';
   static const String settingAutoPlay = 'auto_play';

@@ -14,48 +14,64 @@ class MinePage extends ConsumerWidget {
     final state = ref.watch(mineControllerProvider);
     return Scaffold(
       appBar: AppBar(title: const Text('我的')),
-      body: ListView(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 12, 20, 32),
-        children: [
-          _UserCard(state: state),
-          const SizedBox(height: 20),
-          _MineTile(
-            key: const Key('mine-favorites'),
-            icon: Icons.favorite_rounded,
-            title: '我的收藏',
-            subtitle: '${state.favoriteCount} 部',
-            onTap: () => context.go('/favorites'),
-          ),
-          _MineTile(
-            key: const Key('mine-history'),
-            icon: Icons.history_rounded,
-            title: '播放历史',
-            subtitle: '${state.historyCount} 部',
-            onTap: () => context.go('/history'),
-          ),
-          _MineTile(
-            key: const Key('mine-search-history'),
-            icon: Icons.search_rounded,
-            title: '搜索记录',
-            subtitle: '${state.searchCount} 条',
-            onTap: () => context.push('/search-history'),
-          ),
-          const SizedBox(height: 12),
-          _MineTile(
-            key: const Key('mine-settings'),
-            icon: Icons.settings_rounded,
-            title: '设置',
-            subtitle: '播放与本地数据',
-            onTap: () => context.push('/settings'),
-          ),
-          _MineTile(
-            key: const Key('mine-about'),
-            icon: Icons.info_outline_rounded,
-            title: '关于影界',
-            subtitle: '版本与隐私说明',
-            onTap: () => context.push('/about'),
-          ),
-        ],
+        child: Column(
+          children: [
+            _UserCard(state: state),
+            const SizedBox(height: 20),
+            _MineTile(
+              key: const Key('mine-favorites'),
+              icon: Icons.favorite_rounded,
+              title: '我的收藏',
+              subtitle: '${state.favoriteCount} 部',
+              onTap: () => context.go('/favorites'),
+            ),
+            _MineTile(
+              key: const Key('mine-history'),
+              icon: Icons.history_rounded,
+              title: '播放历史',
+              subtitle: '${state.historyCount} 部',
+              onTap: () => context.go('/history'),
+            ),
+            _MineTile(
+              key: const Key('mine-search-history'),
+              icon: Icons.search_rounded,
+              title: '搜索记录',
+              subtitle: '${state.searchCount} 条',
+              onTap: () => context.push('/search-history'),
+            ),
+            _MineTile(
+              key: const Key('mine-videos'),
+              icon: Icons.video_library_rounded,
+              title: '我的视频',
+              subtitle: '本地导入与云端视频',
+              onTap: () => context.push('/videos'),
+            ),
+            _MineTile(
+              key: const Key('mine-private-videos'),
+              icon: Icons.lock_rounded,
+              title: '隐私视频',
+              subtitle: '需验证后查看',
+              onTap: () => context.push('/private-videos'),
+            ),
+            const SizedBox(height: 12),
+            _MineTile(
+              key: const Key('mine-settings'),
+              icon: Icons.settings_rounded,
+              title: '设置',
+              subtitle: '播放与本地数据',
+              onTap: () => context.push('/settings'),
+            ),
+            _MineTile(
+              key: const Key('mine-about'),
+              icon: Icons.info_outline_rounded,
+              title: '关于影界',
+              subtitle: '版本与隐私说明',
+              onTap: () => context.push('/about'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -77,9 +93,7 @@ class _UserCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
         key: loggedIn ? null : const Key('mine-login'),
-        onTap: loggedIn || restoring
-            ? null
-            : () => context.push('/login'),
+        onTap: loggedIn || restoring ? null : () => context.push('/login'),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -103,10 +117,10 @@ class _UserCard extends StatelessWidget {
                       restoring
                           ? '正在恢复登录...'
                           : loggedIn
-                              ? (auth.user?.nickname ??
-                                  auth.user?.username ??
-                                  '影界用户')
-                              : '未登录',
+                          ? (auth.user?.nickname ??
+                                auth.user?.username ??
+                                '影界用户')
+                          : '未登录',
                       style: const TextStyle(
                         color: YingjieTheme.textPrimary,
                         fontSize: 18,

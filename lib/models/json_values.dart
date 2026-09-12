@@ -71,6 +71,25 @@ class JsonValues {
     return value.map((item) => item.toString()).toList(growable: false);
   }
 
+  static bool flag(Object? value, [bool fallback = false]) {
+    if (value is bool) {
+      return value;
+    }
+    if (value is num) {
+      return value != 0;
+    }
+    if (value is String) {
+      final text = value.trim().toLowerCase();
+      if (text == 'true' || text == '1' || text == 'yes') {
+        return true;
+      }
+      if (text == 'false' || text == '0' || text == 'no') {
+        return false;
+      }
+    }
+    return fallback;
+  }
+
   static DateTime? date(Object? value) {
     if (value is DateTime) {
       return value;
