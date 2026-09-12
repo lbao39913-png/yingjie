@@ -23,6 +23,9 @@ dependencies:
   crypto: ^3.0.6
   file_picker: ^8.3.7
 
+dependency_overrides:
+  flutter_plugin_android_lifecycle: 2.0.26
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
