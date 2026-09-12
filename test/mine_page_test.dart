@@ -122,7 +122,7 @@ void main() {
 
   testWidgets('login entry opens login page', (tester) async {
     await pumpMine(tester);
-    await tester.tap(find.byKey(const Key('mine-login')));
+    await tester.tap(find.text('未登录'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('登录页'), findsOneWidget);

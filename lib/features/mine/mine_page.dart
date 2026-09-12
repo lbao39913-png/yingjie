@@ -72,74 +72,77 @@ class _UserCard extends StatelessWidget {
     final loggedIn = auth.isLoggedIn;
     final restoring =
         auth.status == AuthStatus.unknown || auth.status == AuthStatus.loading;
-    return Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: YingjieTheme.card,
+    return Material(
+      color: YingjieTheme.card,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        key: loggedIn ? null : const Key('mine-login'),
+        onTap: loggedIn || restoring
+            ? null
+            : () => context.push('/login'),
         borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 28,
-            backgroundColor: YingjieTheme.surface,
-            child: Icon(
-              Icons.person_rounded,
-              color: YingjieTheme.accent,
-              size: 32,
-            ),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  restoring
-                      ? '正在恢复登录...'
-                      : loggedIn
-                          ? (auth.user?.nickname ??
-                              auth.user?.username ??
-                              '影界用户')
-                          : '未登录',
-                  style: const TextStyle(
-                    color: YingjieTheme.textPrimary,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              const CircleAvatar(
+                radius: 28,
+                backgroundColor: YingjieTheme.surface,
+                child: Icon(
+                  Icons.person_rounded,
+                  color: YingjieTheme.accent,
+                  size: 32,
                 ),
-                const SizedBox(height: 4),
-                if (loggedIn)
-                  Text(
-                    auth.user?.username ?? '',
-                    style: const TextStyle(
-                      color: YingjieTheme.textMuted,
-                      fontSize: 13,
-                    ),
-                  )
-                else if (!restoring)
-                  GestureDetector(
-                    key: const Key('mine-login'),
-                    onTap: () => context.push('/login'),
-                    child: const Text(
-                      '登录 / 注册',
-                      style: TextStyle(
-                        color: YingjieTheme.accent,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      restoring
+                          ? '正在恢复登录...'
+                          : loggedIn
+                              ? (auth.user?.nickname ??
+                                  auth.user?.username ??
+                                  '影界用户')
+                              : '未登录',
+                      style: const TextStyle(
+                        color: YingjieTheme.textPrimary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  ),
-              ],
-            ),
+                    const SizedBox(height: 4),
+                    if (loggedIn)
+                      Text(
+                        auth.user?.username ?? '',
+                        style: const TextStyle(
+                          color: YingjieTheme.textMuted,
+                          fontSize: 13,
+                        ),
+                      )
+                    else if (!restoring)
+                      const Text(
+                        '登录 / 注册',
+                        style: TextStyle(
+                          color: YingjieTheme.accent,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+              if (loggedIn)
+                TextButton(
+                  key: const Key('mine-logout'),
+                  onPressed: () => _confirmLogout(context),
+                  child: const Text('退出登录'),
+                ),
+            ],
           ),
-          if (loggedIn)
-            TextButton(
-              key: const Key('mine-logout'),
-              onPressed: () => _confirmLogout(context),
-              child: const Text('退出登录'),
-            ),
-        ],
+        ),
       ),
     );
   }
